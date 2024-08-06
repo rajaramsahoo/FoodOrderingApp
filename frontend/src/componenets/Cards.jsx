@@ -8,7 +8,7 @@ const Cards = ({ item }) => {
     setIsHeartFilled(!isHeartFilled);
   };
   return (
-    <div className="card bg-base-100 w-80 shadow-xl relative mx-auto">
+    <div className="card shadow-xl relative mr-5 md:my-5">
       <div
         className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-green ${
           isHeartFilled ? "text-rose-500" : "text-white"
@@ -22,7 +22,7 @@ const Cards = ({ item }) => {
           <img
             src={item.image}
             alt="Shoes"
-            className="hover:scale-105 transition-all duration-300 md:h-72"
+            className="hover:scale-105 transition-all duration-300 md:h-62"
           />
         </figure>
       </Link>
