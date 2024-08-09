@@ -4,6 +4,7 @@ import Navbar from "../componenets/Navbar";
 import Footer from "../componenets/Footer";
 
 const Main = () => {
+
   return (
     <div>
       <Navbar />

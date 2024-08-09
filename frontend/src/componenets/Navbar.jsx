@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FiPhoneCall } from "react-icons/fi";
+import { FaRegUser } from "react-icons/fa";
+import Modal from "./Modal";
+import { AuthContext } from "../context/AuthProvider";
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
-
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -22,7 +24,9 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <a className="text-grren" href="/">Home</a>
+        <a className="text-grren" href="/">
+          Home
+        </a>
       </li>
       <li tabIndex={0}>
         <details>
@@ -57,13 +61,19 @@ const Navbar = () => {
         </details>
       </li>
       <li>
-        <a>Offers</a>
+        <a href="/">Offers</a>
       </li>
     </>
   );
   return (
     <header className="max-w-screen-2xl container mx-auto fixed top-0 right-0 left-0">
-      <div className={`navbar xl:px-24 ${isSticky ? "shadow-md bg-base-100 transition-all duration-300 ease-in-out text-black" : ""}`}>
+      <div
+        className={`navbar xl:px-24 ${
+          isSticky
+            ? "shadow-md bg-base-100 transition-all duration-300 ease-in-out text-black"
+            : ""
+        }`}
+      >
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -138,10 +148,14 @@ const Navbar = () => {
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          <a className="btn bg-green rounded-full px-6 text-white items-center gap-2 ">
-            <FiPhoneCall />
-            Contact
-          </a>
+          <button
+            className="btn flex items-center gap-2 rounded-full px-6 bg-green text-white "
+            onClick={() => document.getElementById("my_modal_5").showModal()}
+          >
+            <FaRegUser />
+            Login
+          </button>
+          <Modal />
         </div>
       </div>
     </header>
