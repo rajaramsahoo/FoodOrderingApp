@@ -1,12 +1,16 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthProvider";
 
 const Modal = () => {
   const [errorMessage, seterrorMessage] = useState("");
+  const { signUpWithGmail, login } = useContext(AuthContext);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const form = location.state?.form?.pathname || "/";
   //react hook form
   const {
     register,
@@ -14,7 +18,6 @@ const Modal = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { signUpWithGmail, login } = useContext(AuthContext);
   const handleRegister = async () => {
     try {
       const result = await signUpWithGmail();
@@ -23,7 +26,8 @@ const Modal = () => {
         name: result.user?.displayName,
       };
       alert("Login  Was done");
-      console.log(userInfo);
+      navigate(form, { replace: true });
+      // console.log(userInfo);
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +40,9 @@ const Modal = () => {
       const result = await login(email, password);
       const user = result.user;
       console.log(user);
-      alert("LOgin Was done");
+      alert("Login Was done");
+      document.getElementById("my_modal_5").close();
+      navigate(form, { replace: true });
     } catch (error) {
       const errorMessage = error.message;
       seterrorMessage("Please provide valid email & password!");
@@ -80,16 +86,14 @@ const Modal = () => {
               </label>
             </div>
             {/* error text */}
-            
+
             {errorMessage ? (
-              <p className="text-red text-xs italic">
-                Provide a correct username & password.
-              </p>
+              <p className="text-red text-xs italic">{errorMessage}</p>
             ) : (
               ""
             )}
 
-            <div className="form-control mt-6">
+            <div className="form-control mt-4">
               <input
                 type="submit"
                 value="login"

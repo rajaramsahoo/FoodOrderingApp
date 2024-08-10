@@ -22,12 +22,14 @@ const Signup = () => {
       console.log(result);
       alert("Account creation was successful");
     } catch (error) {
-      console.error("Error during account creation:", error.message);
-      if (error.code === "auth/admin-restricted-operation") {
-        alert("This operation is restricted to admins.");
-      } else {
-        alert("An error occurred: " + error.message);
-      }
+      // console.error("Error during account creation:", error.message);
+      // if (error.code === "auth/admin-restricted-operation") {
+      //   alert("This operation is restricted to admins.");
+      // } else {
+      //   alert("An error occurred: " + error.message);
+      // }
+      const errorCode = error.code;
+      const errorMessage = error.message
     }
   };
 
@@ -95,7 +97,7 @@ const Signup = () => {
         {/* social login */}
         <div className="text-center space-x-3 mb-5">
           <button
-            //   onClick={handleRegister}
+             // onClick={handleRegister}
             className="btn btn-circle hover:bg-green hover:text-white"
           >
             <FaGoogle />
