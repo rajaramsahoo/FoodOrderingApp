@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Cards from "../../componenets/Cards";
 import { FaFilter } from "react-icons/fa";
-
+import axios from "axios";
 const Menu = () => {
   //   const { isDarkMode } = useTheme();
   const [menu, setMenu] = useState([]);
@@ -15,8 +15,8 @@ const Menu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/menu.json");
-        const data = await response.json();
+        const response = await axios.get("http://localhost:3002/menu");
+        const data = response.data;
         console.log(data);
         setMenu(data);
         setFilteredItems(data);

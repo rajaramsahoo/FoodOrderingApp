@@ -4,10 +4,12 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/Router";
 import AuthProvider from "./context/AuthProvider";
-
+import { CartProvider } from "./hooks/useCart";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>
+  <CartProvider>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </CartProvider>
 );

@@ -4,13 +4,14 @@ import Navbar from "../componenets/Navbar";
 import Footer from "../componenets/Footer";
 import { AuthContext } from "../context/AuthProvider";
 import LoadingSpinner from "../componenets/LoadingSpinner";
-
+// import axios from "axios";
 const Main = () => {
+
   const { loading } = useContext(AuthContext);
   return (
     <div>
       {loading ? (
-        <LoadingSpinner/>
+        <LoadingSpinner />
       ) : (
         <div className="">
           <Navbar />

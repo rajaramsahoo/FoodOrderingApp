@@ -3,10 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthProvider";
+import axios from "axios";
 
 const Modal = () => {
   const [errorMessage, seterrorMessage] = useState("");
-  const { signUpWithGmail, login } = useContext(AuthContext);
+  const { signUpWithGmail, login,setUser } = useContext(AuthContext);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,8 +39,11 @@ const Modal = () => {
       const email = data.email;
       const password = data.password;
       const result = await login(email, password);
-      const user = result.user;
-      console.log(user);
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/users/${result.user.email}`);
+      console.log(response.data)
+      setUser(response.data); 
+      // const user = result.user;
+      //console.log(user);
       alert("Login Was done");
       document.getElementById("my_modal_5").close();
       navigate(form, { replace: true });

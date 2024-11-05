@@ -3,10 +3,15 @@ import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
 import { AuthContext } from "../context/AuthProvider";
 import Profile from "./Profile";
+import { Link,useNavigate  } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useCartContext } from "../hooks/useCart";
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
   const { user } = useContext(AuthContext);
-  console.log(user)
+  console.log(user?.email);
+  const { cart, fetchCartItems, addToCart } = useCartContext();
+  console.log(cart.length);
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -23,6 +28,13 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (user?.email) {
+      fetchCartItems(user.email); // Fetch cart items when the user is logged in
+    }
+  }, [user?.email]); // Make sure to re-fetch when user email changes
+  
   const navItems = (
     <>
       <li>
@@ -35,7 +47,7 @@ const Navbar = () => {
           <summary>Menu</summary>
           <ul className="p-2">
             <li>
-              <a href="/menu">All </a>
+              <NavLink to="/menu">All </NavLink>
             </li>
             <li>
               <a href="/">salad </a>
@@ -127,29 +139,37 @@ const Navbar = () => {
             </svg>
           </button>
           {/* cart */}
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle mr-3 lg:flex items-center justify-center md:flex hidden  "
-          >
-            <div className="indicator">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              <span className="badge badge-sm indicator-item">8</span>
+         
+          <Link to="/cart-page">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle mr-3 lg:flex items-center justify-center md:flex hidden  "
+            >
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {user && (
+                  <span className="badge badge-sm indicator-item">
+                    {" "}
+                    {cart?.length} 
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
+          </Link>
 
           {user ? (
             <Profile user={user} />

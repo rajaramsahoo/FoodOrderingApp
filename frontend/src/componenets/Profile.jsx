@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaUserTie } from "react-icons/fa";
-const Profile = ({ user }) => {
+import { AuthContext } from "../context/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
+import Dashboard from "../pages/dashboard/admin/Dashboard";
+const Profile = ({ users }) => {
+  const { logOut, user } = useContext(AuthContext);
+  console.log(user);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        alert("logout sucessfully");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <div className="drawer drawer-end z-50">
@@ -13,7 +29,7 @@ const Profile = ({ user }) => {
           >
             <div className="w-10 rounded-full">
               {user.photoURL ? (
-                <img alt="user photo was here" src={user.photoURL} />
+                <img alt="user  was here" src={user.photoURL} />
               ) : (
                 <div className="flex items-center justify-center  rounded-full">
                   <FaUserTie size={40} />
@@ -30,8 +46,14 @@ const Profile = ({ user }) => {
           ></label>
           <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
             {/* Sidebar content here */}
+            {user.role === "admin" && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )}
+
             <li>
-              <a>Profile</a>
+              <a href="/update-profile">Profile</a>
             </li>
             <li>
               <a>Orders</a>
@@ -40,7 +62,7 @@ const Profile = ({ user }) => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Log Out</a>
+              <a onClick={handleLogout}>Log Out</a>
             </li>
           </ul>
         </div>

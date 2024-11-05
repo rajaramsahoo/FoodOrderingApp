@@ -17,12 +17,13 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
+
   const signUpWithGmail = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
@@ -32,9 +33,11 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
-    localStorage.removeItem("genius-token");
+    // localStorage.removeItem("genius-token");
+    setUser(null);
     return signOut(auth);
   };
+
   // update your profile
   const updateUserProfile = (name, photoURL) => {
     return updateProfile(auth.currentUser, {
@@ -49,13 +52,15 @@ const AuthProvider = ({ children }) => {
     login,
     logOut,
     updateUserProfile,
-    loading
+    loading,
+    setLoading,
+    setUser,
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        setLoading(false)
+        setLoading(false);
       } else {
       }
     });

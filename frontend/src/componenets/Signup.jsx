@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { AuthContext } from "../context/AuthProvider";
+import axios from "axios";
 
 const Signup = () => {
   const { createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const form = location.state?.form?.pathname || "/";
 
   const {
     register,
@@ -14,22 +18,29 @@ const Signup = () => {
     reset,
     formState: { errors },
   } = useForm();
+
   const onSubmit = async (data) => {
     try {
+      const name = data.name;
       const email = data.email;
       const password = data.password;
+      axios.post("http://localhost:3002/users", {
+        email: data.email,
+        name: data.name,
+      });
       const result = await createUser(email, password);
       console.log(result);
       alert("Account creation was successful");
+      navigate(form, { replace: true });
     } catch (error) {
-      // console.error("Error during account creation:", error.message);
-      // if (error.code === "auth/admin-restricted-operation") {
-      //   alert("This operation is restricted to admins.");
-      // } else {
-      //   alert("An error occurred: " + error.message);
-      // }
+      console.error("Error during account creation:", error.message);
+      if (error.code === "auth/admin-restricted-operation") {
+        alert("This operation is restricted to admins.");
+      } else {
+        alert("An error occurred: " + error.message);
+      }
       const errorCode = error.code;
-      const errorMessage = error.message
+      const errorMessage = error.message;
     }
   };
 
@@ -42,6 +53,17 @@ const Signup = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <h3 className="font-bold medium-text">Create a Account</h3>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input
+              type="name"
+              placeholder="Your name"
+              className="input input-bordered"
+              {...register("name")}
+            />
+          </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
@@ -64,7 +86,7 @@ const Signup = () => {
               {...register("password")}
             />
             <label className="label mt-1">
-              <a href="#" className="label-text-alt link link-hover">
+              <a href="/" className="label-text-alt link link-hover">
                 Forgot password?
               </a>
             </label>
@@ -97,7 +119,7 @@ const Signup = () => {
         {/* social login */}
         <div className="text-center space-x-3 mb-5">
           <button
-             // onClick={handleRegister}
+            // onClick={handleRegister}
             className="btn btn-circle hover:bg-green hover:text-white"
           >
             <FaGoogle />
