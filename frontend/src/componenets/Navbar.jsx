@@ -3,15 +3,15 @@ import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
 import { AuthContext } from "../context/AuthProvider";
 import Profile from "./Profile";
-import { Link,useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useCartContext } from "../hooks/useCart";
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
   const { user } = useContext(AuthContext);
-  console.log(user?.email);
   const { cart, fetchCartItems, addToCart } = useCartContext();
-  console.log(cart.length);
+  // let token = JSON.parse(localStorage.getItem("token")).token;
+  // console.log(token);
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -34,13 +34,13 @@ const Navbar = () => {
       fetchCartItems(user.email); // Fetch cart items when the user is logged in
     }
   }, [user?.email]); // Make sure to re-fetch when user email changes
-  
+
   const navItems = (
     <>
       <li>
-        <a className="text-grren" href="/">
+        <Link className="text-grren" to="/">
           Home
-        </a>
+        </Link>
       </li>
       <li tabIndex={0}>
         <details>
@@ -50,10 +50,10 @@ const Navbar = () => {
               <NavLink to="/menu">All </NavLink>
             </li>
             <li>
-              <a href="/">salad </a>
+              <Link to="/">salad </Link>
             </li>
             <li>
-              <a href="/">Pizza </a>
+              <Link to="/">Pizza </Link>
             </li>
           </ul>
         </details>
@@ -63,19 +63,19 @@ const Navbar = () => {
           <summary>Services</summary>
           <ul className="p-2">
             <li>
-              <a href="/">Online Order </a>
+              <Link to="/">Online Order </Link>
             </li>
             <li>
-              <a href="/">Table Booking </a>
+              <Link to="/">Table Booking </Link>
             </li>
             <li>
-              <a href="/">Order Tracking </a>
+              <Link to="/">Order Tracking </Link>
             </li>
           </ul>
         </details>
       </li>
       <li>
-        <a href="/">Offers</a>
+        <Link to="/">Offers</Link>
       </li>
     </>
   );
@@ -139,7 +139,7 @@ const Navbar = () => {
             </svg>
           </button>
           {/* cart */}
-         
+
           <Link to="/cart-page">
             <div
               tabIndex={0}
@@ -164,7 +164,7 @@ const Navbar = () => {
                 {user && (
                   <span className="badge badge-sm indicator-item">
                     {" "}
-                    {cart?.length} 
+                    {cart?.length}
                   </span>
                 )}
               </div>

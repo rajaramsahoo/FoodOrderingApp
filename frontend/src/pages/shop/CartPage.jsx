@@ -9,7 +9,7 @@ function CartPage() {
   const { cart, removeFromCart, fetchCartItems } = useCartContext();
   const { user } = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
-  console.log(cartItems);
+  console.log(user);
   const handleDelete = async (item) => {
     Swal.fire({
       title: "Are you sure?",
@@ -96,7 +96,7 @@ function CartPage() {
           </div>
         </div>
       </div>
-      {cart.length > 0 ? (
+      {user ? (
         <div className="">
           <div className="">
             <div className="overflow-x-auto">

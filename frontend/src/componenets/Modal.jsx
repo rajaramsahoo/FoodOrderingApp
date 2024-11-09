@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Modal = () => {
   const [errorMessage, seterrorMessage] = useState("");
-  const { signUpWithGmail, login,setUser } = useContext(AuthContext);
+  const {  setUser } = useContext(AuthContext);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,29 +19,20 @@ const Modal = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const handleRegister = async () => {
-    try {
-      const result = await signUpWithGmail();
-      const userInfo = {
-        email: result.user?.email,
-        name: result.user?.displayName,
-      };
-      alert("Login  Was done");
-      navigate(form, { replace: true });
-      // console.log(userInfo);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const onSubmit = async (data) => {
     try {
       const email = data.email;
       const password = data.password;
-      const result = await login(email, password);
-      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/users/${result.user.email}`);
-      console.log(response.data)
-      setUser(response.data); 
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/users/signin`,
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
+      setUser(response.data.user);
+      localStorage.setItem("token", JSON.stringify({ token: response.data.token }));
       // const user = result.user;
       //console.log(user);
       alert("Login Was done");
@@ -120,10 +111,7 @@ const Modal = () => {
           </form>
           {/* social login */}
           <div className="text-center space-x-3 mb-5">
-            <button
-              onClick={handleRegister}
-              className="btn btn-circle hover:bg-green hover:text-white"
-            >
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaGoogle />
             </button>
             <button className="btn btn-circle hover:bg-green hover:text-white">

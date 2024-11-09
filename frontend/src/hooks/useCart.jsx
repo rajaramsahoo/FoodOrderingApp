@@ -12,7 +12,7 @@ export const CartProvider = ({ children,userEmail }) => {
   const fetchCartItems = async (email) => {
     try {
       const response = await axios.get(
-        `http://localhost:3002/carts?email=${email}`
+        `http://localhost:3003/carts?email=${email}`
       );
       console.log(response.data);
       setCart(response.data);

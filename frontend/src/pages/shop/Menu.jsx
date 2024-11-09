@@ -15,7 +15,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/menu");
+        const response = await axios.get("http://localhost:3003/menu");
         const data = response.data;
         console.log(data);
         setMenu(data);

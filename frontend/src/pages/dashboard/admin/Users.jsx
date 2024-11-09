@@ -1,16 +1,19 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../../context/AuthProvider";
+// import { AuthContext } from "../../../context/AuthProvider";
 
 const Users = () => {
   const [allUsers, setAllUsers] = useState([]);
-
   const fetchAllUsers = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BASEURL}/users`);
-      console.log(res.data);
+      let token = JSON.parse(localStorage.getItem("token")).token;
+      const res = await axios.get(`${process.env.REACT_APP_BASEURL}/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setAllUsers(res.data);
     } catch (error) {
       console.log(error);
@@ -142,51 +145,3 @@ const Users = () => {
 };
 
 export default Users;
-//admin user cant delete another admin user
-// const handleDeleteUser = async (user) => {
-//   // Prevent admin from deleting another admin
-//   if (user.role === "admin") {
-//     Swal.fire({
-//       title: "Action Denied!",
-//       text: "Admins cannot delete other admins.",
-//       icon: "error",
-//     });
-//     return; // Exit the function early
-//   }
-
-//   // Proceed with deletion if the user is not an admin
-//   Swal.fire({
-//     title: "Are you sure?",
-//     text: "You won't be able to revert this!",
-//     icon: "warning",
-//     showCancelButton: true,
-//     confirmButtonColor: "#3085d6",
-//     cancelButtonColor: "#d33",
-//     confirmButtonText: "Yes, delete it!",
-//   }).then(async (result) => {
-//     if (result.isConfirmed) {
-//       try {
-//         await axios.delete(`${process.env.REACT_APP_BASEURL}/users/${user._id}`);
-
-//         // Show success message if the deletion is successful
-//         Swal.fire({
-//           title: "Deleted!",
-//           text: "The user has been deleted.",
-//           icon: "success",
-//         });
-
-//         fetchAllUsers();
-//       } catch (error) {
-//         // Handle any errors
-//         console.error("Error deleting the user:", error);
-
-//         // Show error alert if there's an issue with deletion
-//         Swal.fire({
-//           title: "Error!",
-//           text: "Something went wrong. Unable to delete the user.",
-//           icon: "error",
-//         });
-//       }
-//     }
-//   });
-// };

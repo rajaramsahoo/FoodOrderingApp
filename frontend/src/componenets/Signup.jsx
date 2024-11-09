@@ -7,7 +7,6 @@ import { AuthContext } from "../context/AuthProvider";
 import axios from "axios";
 
 const Signup = () => {
-  const { createUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const form = location.state?.form?.pathname || "/";
@@ -24,23 +23,19 @@ const Signup = () => {
       const name = data.name;
       const email = data.email;
       const password = data.password;
-      axios.post("http://localhost:3002/users", {
-        email: data.email,
-        name: data.name,
-      });
-      const result = await createUser(email, password);
+      const result = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/users`,
+        {
+          email: data.email,
+          name: data.name,
+          password: data.password,
+        }
+      );
       console.log(result);
       alert("Account creation was successful");
       navigate(form, { replace: true });
     } catch (error) {
-      console.error("Error during account creation:", error.message);
-      if (error.code === "auth/admin-restricted-operation") {
-        alert("This operation is restricted to admins.");
-      } else {
-        alert("An error occurred: " + error.message);
-      }
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      alert(error.response.data.message);
     }
   };
 
@@ -52,7 +47,7 @@ const Signup = () => {
           method="dialog"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h3 className="font-bold medium-text">Create a Account</h3>
+          <h3 className="font-bold medium-text">Create a Account by raja</h3>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Name</span>
@@ -118,10 +113,7 @@ const Signup = () => {
         </form>
         {/* social login */}
         <div className="text-center space-x-3 mb-5">
-          <button
-            // onClick={handleRegister}
-            className="btn btn-circle hover:bg-green hover:text-white"
-          >
+          <button className="btn btn-circle hover:bg-green hover:text-white">
             <FaGoogle />
           </button>
           <button className="btn btn-circle hover:bg-green hover:text-white">

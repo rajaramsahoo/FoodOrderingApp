@@ -4,18 +4,16 @@ import { AuthContext } from "../context/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 const Profile = ({ users }) => {
-  const { logOut, user } = useContext(AuthContext);
-  console.log(user);
+  const { setUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
-    logOut()
-      .then(() => {
-        alert("logout sucessfully");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      setUser(null);
+      localStorage.removeItem("token")
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
