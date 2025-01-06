@@ -10,6 +10,7 @@ const Profile = ({ users }) => {
     try {
       setUser(null);
       localStorage.removeItem("token")
+      localStorage.removeItem("user")
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -49,9 +50,12 @@ const Profile = ({ users }) => {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
             )}
-
             <li>
-              <a href="/update-profile">Profile</a>
+              <Link to="/update-profile">{user.name}
+              </Link>
+            </li>
+            <li>
+              <Link to="/update-profile">Profile</Link>
             </li>
             <li>
               <a>Orders</a>

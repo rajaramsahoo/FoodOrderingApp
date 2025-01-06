@@ -7,8 +7,8 @@ import axios from "axios";
 
 const Modal = () => {
   const [errorMessage, seterrorMessage] = useState("");
-  const {  setUser } = useContext(AuthContext);
-
+  const { user, setUser } = useContext(AuthContext);
+  console.log(user)
   const location = useLocation();
   const navigate = useNavigate();
   const form = location.state?.form?.pathname || "/";
@@ -32,6 +32,7 @@ const Modal = () => {
         }
       );
       setUser(response.data.user);
+      localStorage.setItem("user", JSON.stringify({ user: response.data.user }));
       localStorage.setItem("token", JSON.stringify({ token: response.data.token }));
       // const user = result.user;
       //console.log(user);

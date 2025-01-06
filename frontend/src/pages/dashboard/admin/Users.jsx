@@ -22,8 +22,15 @@ const Users = () => {
 
   const handleMakeAdmin = async (user) => {
     try {
+      let token = JSON.parse(localStorage.getItem("token")).token;
+
       await axios.put(
-        `${process.env.REACT_APP_BASEURL}/users/admin/${user._id}`
+        `${process.env.REACT_APP_BASEURL}/users/admin/${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       fetchAllUsers();
       Swal.fire({
@@ -56,8 +63,15 @@ const Users = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          let token = JSON.parse(localStorage.getItem("token")).token;
+
           await axios.delete(
-            `${process.env.REACT_APP_BASEURL}/users/${user._id}`
+            `${process.env.REACT_APP_BASEURL}/users/${user._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
 
           // Show success message if the deletion is successful
