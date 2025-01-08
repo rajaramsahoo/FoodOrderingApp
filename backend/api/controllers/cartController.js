@@ -3,14 +3,6 @@ const getCartByEmail = async (req, res) => {
   try {
     const email = req.query.email;
     const query = { email: email };
-
-    //  // extra for JWT verification
-    //  const decodedEmail = req.decoded.email;
-
-    //  if(email !== decodedEmail){
-    //     res.status(403).json({ message: "Forbidden access!"});
-    //  }
-
     const result = await Carts.find(query).exec();
     res.status(200).json(result);
   } catch (error) {

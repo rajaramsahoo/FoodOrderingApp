@@ -10,6 +10,12 @@ import CartPage from "../pages/shop/CartPage";
 import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 import Users from "../pages/dashboard/admin/Users";
+import AddMenu from "../pages/dashboard/admin/AddMenu";
+import ManageItems from "../pages/dashboard/admin/ManageItems";
+import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
+import Payment from "../pages/shop/Payment";
+import Order from "../pages/dashboard/user/Order";
+import ManageBooking from "../pages/dashboard/admin/ManageBooking";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,10 +41,14 @@ const router = createBrowserRouter([
         path: "/order",
         element: (
           <PrivateRouter>
-            <UpdateProfile />
+            <Order />
           </PrivateRouter>
         ),
       },
+      {
+        path: "/process-checkout",
+        element: <Payment />
+      }
     ],
   },
 
@@ -56,6 +66,11 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Dashboard /> },
       { path: "users", element: <Users /> },
+      { path: "add-menu", element: <AddMenu /> },
+      { path: "manage-items", element: <ManageItems /> },
+      { path: "update-menu/:id", element: <UpdateMenu />, loader: ({ params }) => fetch(`${process.env.REACT_APP_BASEURL}/menu/${params.id}`) },
+      { path: "bookings", element: <ManageBooking /> },
+
     ],
   },
 ]);

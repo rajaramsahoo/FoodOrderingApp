@@ -1,13 +1,27 @@
 const jwt = require("jsonwebtoken");
+
 function verifyToken(req, res, next) {
   try {
-    let token = req.headers.authorization.split(" ")[1];
-    let decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.payload = decode;
+    // Check if the Authorization header exists
+   
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the header
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ error: "Token missing in Authorization header" });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.payload = decoded;
     next();
   } catch (error) {
-    console.log(error);
-    return res.status(404).json({ error: "unAuthorized person " });
+    console.error(error);
+    return res.status(401).json({ error: "Unauthorized access" });
   }
 }
 

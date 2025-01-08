@@ -20,7 +20,7 @@ export const CartProvider = ({ children, userEmail }) => {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setCart(response.data);
     } catch (error) {
       console.error("Error fetching cart items", error);

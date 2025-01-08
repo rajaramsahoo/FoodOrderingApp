@@ -8,7 +8,6 @@ import axios from "axios";
 const Modal = () => {
   const [errorMessage, seterrorMessage] = useState("");
   const { user, setUser } = useContext(AuthContext);
-  console.log(user)
   const location = useLocation();
   const navigate = useNavigate();
   const form = location.state?.form?.pathname || "/";

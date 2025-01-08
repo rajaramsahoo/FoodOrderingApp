@@ -18,7 +18,6 @@ import { FaCartShopping } from "react-icons/fa6";
 import logo from "../assets/logo.png";
 const DashboardLayout = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   const sharedMenu = (
     <>
       <li className="mt-3">

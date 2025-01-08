@@ -9,7 +9,6 @@ import { useCartContext } from "../hooks/useCart";
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
   const { user } = useContext(AuthContext);
-  console.log(user)
   const { cart, fetchCartItems, addToCart } = useCartContext();
   // let token = JSON.parse(localStorage.getItem("token")).token;
   // console.log(token);

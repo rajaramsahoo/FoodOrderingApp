@@ -168,7 +168,7 @@ function CartPage() {
           <div className="flex flex-col md:flex-row justify-between items-start my-12 gap-8">
             <div className="md:w-1/2 space-y-3">
               <h3 className="text-lg font-semibold">Customer Details</h3>
-              <p>Name: {user?.displayName || "None"}</p>
+              <p>Name: {user?.name || "None"}</p>
               <p>Email: {user?.email}</p>
               <p>
                 User_id: <span className="text-sm">{user?.uid}</span>
